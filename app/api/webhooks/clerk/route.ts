@@ -6,7 +6,8 @@ type ClerkUserCreatedEvent = {
   type: string;
   data: {
     id: string;
-    email_addresses: { email_address: string; primary: boolean }[];
+    primary_email_address_id: string;
+    email_addresses: { id: string; email_address: string }[];
   };
 };
 
@@ -42,8 +43,8 @@ export async function POST(req: Request) {
   }
 
   if (event.type === "user.created") {
-    const { id: clerkId, email_addresses } = event.data;
-    const email = email_addresses.find((e) => e.primary)?.email_address;
+    const { id: clerkId, primary_email_address_id, email_addresses } = event.data;
+    const email = email_addresses.find((e) => e.id === primary_email_address_id)?.email_address;
 
     if (!email) {
       return new Response("No primary email found", { status: 400 });
