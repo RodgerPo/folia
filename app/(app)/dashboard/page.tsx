@@ -1,14 +1,23 @@
-import { currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { prisma } from "@/lib/prisma";
+import PlantGrid from "@/components/PlantGrid";
 
 export default async function DashboardPage() {
-  const user = await currentUser();
+  const { userId: clerkId } = await auth();
+  if (!clerkId) redirect("/sign-in");
+
+  const user = await prisma.user.findUnique({ where: { clerkId } });
+  if (!user) redirect("/sign-in");
+
+  const plants = await prisma.plant.findMany({
+    where: { userId: user.id },
+    orderBy: { createdAt: "desc" },
+  });
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-12">
-      <h1 className="text-2xl font-semibold text-stone-800">
-        Welcome to Folia{user?.firstName ? `, ${user.firstName}` : ""}
-      </h1>
-      <p className="mt-2 text-stone-500">Your plant collection will live here.</p>
+      <PlantGrid plants={plants} />
     </main>
   );
 }
