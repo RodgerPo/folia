@@ -46,137 +46,30 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Responsive layout utilities ───────────────────────── */
+/* ── Mobile-only overrides ──────────────────────────────── */
+/*
+ * Desktop layout is defined by inline styles in each component (preserving
+ * the exact original appearance). These classes only kick in on small screens
+ * to override those inline values. !important is required to beat inline
+ * specificity.
+ */
 
-/* Centered max-width wrapper with responsive horizontal padding */
-.px-page {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-@media (min-width: 640px) {
-  .px-page { padding-left: 32px; padding-right: 32px; }
-}
-
-/* Nav inner row */
-.nav-row {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 20px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-@media (min-width: 640px) {
-  .nav-row { padding: 0 32px; }
+/* Reduce side padding on phones */
+@media (max-width: 639px) {
+  .mob-px { padding-left: 20px !important; padding-right: 20px !important; }
 }
 
-/* Page-level main container */
-.page-main {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 32px 20px 80px;
-}
-@media (min-width: 640px) {
-  .page-main { padding: 48px 32px 96px; }
+/* Plant detail – stack image above info on phones / small tablets */
+@media (max-width: 767px) {
+  .detail-hero  { grid-template-columns: 1fr !important; gap: 24px !important; margin-bottom: 32px !important; }
+  .detail-image { position: relative !important; top: auto !important; }
 }
 
-/* Plant detail – hero: stacks on mobile, side-by-side on desktop */
-.detail-hero {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-  align-items: start;
-  margin-bottom: 48px;
-}
-@media (min-width: 768px) {
-  .detail-hero { grid-template-columns: 320px 1fr; gap: 48px; margin-bottom: 56px; }
-}
-@media (min-width: 1024px) {
-  .detail-hero { grid-template-columns: 360px 1fr; gap: 56px; }
-}
-
-/* Plant image – sticky only on desktop */
-.detail-image {
-  width: 100%;
-  aspect-ratio: 1;
-  background: #EEEADE;
-  border-radius: 28px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: var(--shadow-raised);
-}
-@media (min-width: 768px) {
-  .detail-image { position: sticky; top: 88px; }
-}
-
-/* Landing hero – stacks on mobile, side-by-side on desktop */
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  gap: 48px;
-  padding: 56px 0;
-}
-@media (min-width: 768px) {
-  .hero-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    min-height: calc(100vh - 64px);
-    padding: 80px 0;
-  }
-}
-
-/* Decorative floating cards – hidden on mobile */
-.hero-float {
-  position: absolute;
-  display: none;
-}
-@media (min-width: 768px) {
-  .hero-float { display: flex; }
-}
-
-/* Feature cards – 1 → 2 → 3 columns */
-.feature-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-@media (min-width: 540px) {
-  .feature-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (min-width: 1024px) {
-  .feature-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
-}
-
-/* Steps – 1 → 3 columns */
-.steps-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-  margin-top: 48px;
-}
-@media (min-width: 768px) {
-  .steps-grid { grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 56px; }
-}
-
-/* CTA card – stacks on mobile, row on desktop */
-.cta-card {
-  background: var(--sage-500);
-  border-radius: 28px;
-  padding: 40px 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 28px;
-}
-@media (min-width: 640px) {
-  .cta-card {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 64px 56px;
-  }
+/* Landing page – single-column layouts on phones / small tablets */
+@media (max-width: 767px) {
+  .hero-grid    { grid-template-columns: 1fr !important; min-height: auto !important; padding: 48px 0 !important; gap: 40px !important; }
+  .hero-float   { display: none !important; }
+  .feature-grid { grid-template-columns: 1fr !important; }
+  .steps-grid   { grid-template-columns: 1fr !important; gap: 24px !important; margin-top: 32px !important; }
+  .cta-card     { flex-direction: column !important; align-items: flex-start !important; justify-content: flex-start !important; padding: 36px 24px !important; }
 }

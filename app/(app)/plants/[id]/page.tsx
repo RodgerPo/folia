@@ -90,11 +90,11 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
   }));
 
   return (
-    <main className="page-main">
+    <main className="mob-px" style={{ maxWidth: 1120, margin: "0 auto", padding: "48px 32px 96px" }}>
 
       {/* Detail header */}
-      <div className="detail-hero">
-        <div className="detail-image">
+      <div className="detail-hero" style={{ display: "grid", gridTemplateColumns: "360px 1fr", gap: 56, alignItems: "start", marginBottom: 56 }}>
+        <div className="detail-image" style={{ width: "100%", aspectRatio: "1", background: "#EEEADE", borderRadius: 28, overflow: "hidden", position: "sticky", top: 88, boxShadow: "var(--shadow-raised)" }}>
           <Image
             src={p.imageUrl ?? getFallbackImage(p.name)}
             alt={p.name}

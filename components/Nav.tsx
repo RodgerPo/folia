@@ -13,7 +13,7 @@ export default async function Nav({ active }: { active?: "plants" | "discover" }
       borderBottom: "1px solid var(--border)", height: 64,
       display: "flex", alignItems: "center",
     }}>
-      <div className="nav-row">
+      <div className="mob-px" style={{ maxWidth: 1120, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
           <Link href="/dashboard" style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontSize: 22, color: "var(--accent)", textDecoration: "none" }}>
             Folia

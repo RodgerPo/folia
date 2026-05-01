@@ -16,7 +16,7 @@ export default async function LandingPage() {
         borderBottom: "1px solid var(--border)", height: 64,
         display: "flex", alignItems: "center",
       }}>
-        <div className="nav-row">
+        <div className="mob-px" style={{ maxWidth: 1120, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontSize: 22, color: "var(--accent)" }}>Folia</span>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             {isLoggedIn ? (
@@ -36,8 +36,8 @@ export default async function LandingPage() {
 
       {/* HERO */}
       <section style={{ borderBottom: "1px solid var(--divider)" }}>
-        <div className="px-page">
-          <div className="hero-grid">
+        <div className="mob-px" style={{ maxWidth: 1120, margin: "0 auto", padding: "0 32px" }}>
+          <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", alignItems: "center", gap: 64, minHeight: "calc(100vh - 64px)", padding: "80px 0" }}>
             <div>
               <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 20 }}>Plant care, reimagined</p>
               <h1 style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(38px,5vw,64px)", lineHeight: 1.1, letterSpacing: "-0.02em", color: "var(--ink-900)", marginBottom: 22 }}>
@@ -60,7 +60,7 @@ export default async function LandingPage() {
               <div style={{ width: "100%", aspectRatio: "1", maxWidth: 480, marginLeft: "auto", background: "#EEEADE", borderRadius: 32, overflow: "hidden", position: "relative" }}>
                 <Image src="/plants/Monstera.png" alt="Monstera" fill style={{ objectFit: "cover", objectPosition: "center" }} />
               </div>
-              <div className="hero-float" style={{ bottom: 60, left: -28, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 14, padding: "12px 16px", boxShadow: "var(--shadow-raised)", alignItems: "center", gap: 10 }}>
+              <div className="hero-float" style={{ position: "absolute", bottom: 60, left: -28, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 14, padding: "12px 16px", boxShadow: "var(--shadow-raised)", display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{ width: 36, height: 36, borderRadius: 10, background: "var(--accent-light)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3D5A3E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
                 </div>
@@ -69,7 +69,7 @@ export default async function LandingPage() {
                   <div style={{ fontSize: 11, color: "var(--ink-500)" }}>Monstera is thirsty</div>
                 </div>
               </div>
-              <div className="hero-float" style={{ top: 56, right: -16, maxWidth: 180, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 14, padding: "12px 16px", boxShadow: "var(--shadow-raised)", alignItems: "center", gap: 10 }}>
+              <div className="hero-float" style={{ position: "absolute", top: 56, right: -16, maxWidth: 180, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 14, padding: "12px 16px", boxShadow: "var(--shadow-raised)", display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{ width: 36, height: 36, borderRadius: 10, background: "var(--gold-100)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C6A28" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.88 5.76L20 10l-6.12 1.24L12 17l-1.88-5.76L4 10l6.12-1.24z"/></svg>
                 </div>
@@ -85,12 +85,12 @@ export default async function LandingPage() {
 
       {/* FEATURES */}
       <section style={{ borderBottom: "1px solid var(--divider)", padding: "96px 0" }}>
-        <div className="px-page">
+        <div className="mob-px" style={{ maxWidth: 1120, margin: "0 auto", padding: "0 32px" }}>
           <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 12 }}>Everything you need</p>
-          <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(26px,3vw,36px)", fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.2, marginBottom: 48 }}>
+          <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(26px,3vw,36px)", fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.2, marginBottom: 56 }}>
             A calmer way<br />to care for plants
           </h2>
-          <div className="feature-grid">
+          <div className="feature-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
             {[
               { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D5A3E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>, title: "Search & add plants", desc: "Browse thousands of species. Add plants to your collection with one tap, and get their full care profile instantly." },
               { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D5A3E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>, title: "Health log", desc: "Write observations as you notice them. Your log builds a meaningful record — and AI reads it to give better advice." },
@@ -108,10 +108,10 @@ export default async function LandingPage() {
 
       {/* HOW IT WORKS */}
       <section style={{ borderBottom: "1px solid var(--divider)", padding: "96px 0" }}>
-        <div className="px-page">
+        <div className="mob-px" style={{ maxWidth: 1120, margin: "0 auto", padding: "0 32px" }}>
           <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 12 }}>How it works</p>
           <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(26px,3vw,36px)", fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.2 }}>Simple from day one</h2>
-          <div className="steps-grid">
+          <div className="steps-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 40, marginTop: 56 }}>
             {[
               { num: "01", title: "Add your plants", desc: "Search by common name or species. We pull in the care profile so you don't have to." },
               { num: "02", title: "Log observations", desc: "Notice a new leaf? Yellowing? Write a quick note. Your log builds a picture over time." },
@@ -129,8 +129,8 @@ export default async function LandingPage() {
 
       {/* CTA */}
       <section style={{ padding: "80px 0 96px", borderBottom: "1px solid var(--divider)" }}>
-        <div className="px-page">
-          <div className="cta-card">
+        <div className="mob-px" style={{ maxWidth: 1120, margin: "0 auto", padding: "0 32px" }}>
+          <div className="cta-card" style={{ background: "var(--sage-500)", borderRadius: 28, padding: "64px 56px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 40, flexWrap: "wrap" }}>
             <div>
               <div style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(26px,3vw,38px)", lineHeight: 1.2, color: "var(--cream-50)", marginBottom: 12 }}>
                 Ready to start caring<br />with intention?
@@ -146,7 +146,7 @@ export default async function LandingPage() {
 
       {/* FOOTER */}
       <footer style={{ padding: "32px 0" }}>
-        <div className="px-page" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+        <div className="mob-px" style={{ maxWidth: 1120, margin: "0 auto", padding: "0 32px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontSize: 18, color: "var(--accent)" }}>Folia</span>
           <span style={{ fontSize: 13, color: "var(--ink-500)" }}>© 2026 Folia. Made with care.</span>
         </div>

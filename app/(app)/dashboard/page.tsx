@@ -16,7 +16,7 @@ export default async function DashboardPage() {
   });
 
   return (
-    <main className="page-main">
+    <main className="mob-px" style={{ maxWidth: 1120, margin: "0 auto", padding: "48px 32px 80px" }}>
       <PlantGrid plants={plants} />
     </main>
   );
