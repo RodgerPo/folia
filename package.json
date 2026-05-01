@@ -22,6 +22,9 @@
     "resend": "^6.12.2",
     "svix": "^1.92.2"
   },
+  "prisma": {
+    "seed": "npx tsx prisma/seed.ts"
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
