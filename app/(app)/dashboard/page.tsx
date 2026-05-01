@@ -16,7 +16,7 @@ export default async function DashboardPage() {
   });
 
   return (
-    <main className="max-w-5xl mx-auto px-4 py-12">
+    <main style={{ maxWidth: 1120, margin: "0 auto", padding: "48px 32px 80px" }}>
       <PlantGrid plants={plants} />
     </main>
   );

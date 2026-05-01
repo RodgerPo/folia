@@ -11,6 +11,14 @@ export type PlantSearchResult = {
   thumbnailUrl: string | null;
 };
 
+// Perenual returns paywall strings instead of null on free-tier fields.
+// Treat any value containing "Upgrade" as missing data.
+function clean(value: string | null | undefined): string | null {
+  if (!value) return null;
+  if (value.toLowerCase().includes("upgrade")) return null;
+  return value;
+}
+
 // Perenual uses strings like "Frequent" / "Average" / "Minimum" for watering.
 // We convert these to a number of days that makes sense for a reminder schedule.
 function mapWateringToDays(watering: string | null | undefined): number {
@@ -35,10 +43,10 @@ function normalizePlant(plant: {
   return {
     perenualId: plant.id,
     name: plant.common_name ?? "Unknown Plant",
-    scientificName: plant.scientific_name?.[0] ?? "",
-    wateringFrequencyDays: mapWateringToDays(plant.watering),
-    light: plant.sunlight?.[0] ?? "Unknown",
-    cycle: plant.cycle ?? "Unknown",
+    scientificName: clean(plant.scientific_name?.[0]) ?? "",
+    wateringFrequencyDays: mapWateringToDays(clean(plant.watering)),
+    light: clean(plant.sunlight?.[0]) ?? "Unknown",
+    cycle: clean(plant.cycle) ?? "Unknown",
     thumbnailUrl: plant.default_image?.thumbnail?.includes("upgrade_access") ? null : (plant.default_image?.thumbnail ?? null),
   };
 }

@@ -28,6 +28,9 @@
 CLAUDE.md
 AGENTS.md
 
+# design reference files (not application code)
+/design
+
 # debug
 npm-debug.log*
 yarn-debug.log*

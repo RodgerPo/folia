@@ -1,5 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { generateCareSupplement } from "@/lib/anthropic";
 
 export async function GET() {
   const { userId: clerkId } = await auth();
@@ -39,5 +40,15 @@ export async function POST(req: Request) {
     },
   });
 
-  return Response.json(plant, { status: 201 });
+  try {
+    const supplement = await generateCareSupplement(name, scientificName ?? null);
+    const enriched = await prisma.plant.update({
+      where: { id: plant.id },
+      data: supplement,
+    });
+    return Response.json(enriched, { status: 201 });
+  } catch (err) {
+    console.error("Care supplement generation failed:", err);
+    return Response.json(plant, { status: 201 });
+  }
 }

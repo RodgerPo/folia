@@ -40,7 +40,9 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     where: { id },
     data: {
       wateringFrequencyDays: body.wateringFrequencyDays ?? plant.wateringFrequencyDays,
-      lastWatered: body.lastWatered ? new Date(body.lastWatered) : plant.lastWatered,
+      lastWatered: "lastWatered" in body
+        ? (body.lastWatered ? new Date(body.lastWatered) : null)
+        : plant.lastWatered,
     },
   });
 

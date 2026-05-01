@@ -17,16 +17,19 @@ export default function DeletePlantButton({ plantId }: { plantId: string }) {
 
   if (confirming) {
     return (
-      <div className="flex items-center gap-2">
-        <span className="text-sm text-stone-500">Remove this plant?</span>
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <span style={{ fontSize: 14, color: "var(--ink-500)" }}>Remove this plant?</span>
         <button
           onClick={handleDelete}
           disabled={deleting}
-          className="text-sm text-red-600 hover:text-red-700 font-medium disabled:opacity-50"
+          style={{ fontSize: 13, fontWeight: 500, background: "var(--red-500)", color: "#fff", border: "none", cursor: "pointer", padding: "7px 14px", borderRadius: 10, opacity: deleting ? .5 : 1 }}
         >
-          {deleting ? "Removing..." : "Yes, remove"}
+          {deleting ? "Removing…" : "Yes, remove"}
         </button>
-        <button onClick={() => setConfirming(false)} className="text-sm text-stone-400 hover:text-stone-600">
+        <button
+          onClick={() => setConfirming(false)}
+          style={{ fontSize: 13, color: "var(--ink-500)", background: "none", border: "none", cursor: "pointer" }}
+        >
           Cancel
         </button>
       </div>
@@ -36,7 +39,7 @@ export default function DeletePlantButton({ plantId }: { plantId: string }) {
   return (
     <button
       onClick={() => setConfirming(true)}
-      className="text-sm text-stone-400 hover:text-red-500 transition-colors"
+      style={{ fontSize: 14, fontWeight: 500, background: "var(--red-100)", color: "var(--red-500)", border: "none", cursor: "pointer", padding: "10px 18px", borderRadius: 12 }}
     >
       Remove plant
     </button>
