@@ -16,41 +16,36 @@ function formatDate(date: Date) {
 function toInputValue(date: Date | null) {
   if (!date) return "";
   const d = new Date(date);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
-export default function WaterButton({ plantId, lastWatered, wateringFrequencyDays }: Props) {
+export default function WaterButton({ plantId, lastWatered }: Props) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dateValue, setDateValue] = useState(toInputValue(lastWatered));
 
-  async function patch(body: Record<string, unknown>) {
+  async function water(wateredAt: Date) {
     setLoading(true);
-    await fetch(`/api/plants/${plantId}`, {
-      method: "PATCH",
+    await fetch(`/api/plants/${plantId}/water`, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ wateredAt: wateredAt.toISOString() }),
     });
     router.refresh();
     setLoading(false);
     setEditing(false);
   }
 
-  function markToday() {
-    patch({ lastWatered: new Date().toISOString() });
-  }
-
-  function saveEdit() {
-    if (!dateValue) return;
-    patch({ lastWatered: new Date(dateValue).toISOString() });
-  }
-
-  function clearWatering() {
-    patch({ lastWatered: null });
+  async function clearWatering() {
+    setLoading(true);
+    await fetch(`/api/plants/${plantId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ lastWatered: null }),
+    });
+    router.refresh();
+    setLoading(false);
   }
 
   if (editing) {
@@ -68,7 +63,7 @@ export default function WaterButton({ plantId, lastWatered, wateringFrequencyDay
           }}
         />
         <button
-          onClick={saveEdit}
+          onClick={() => dateValue && water(new Date(dateValue))}
           disabled={loading || !dateValue}
           style={{
             fontSize: 13, fontWeight: 500, background: "var(--accent)",
@@ -101,7 +96,6 @@ export default function WaterButton({ plantId, lastWatered, wateringFrequencyDay
         </div>
         <button
           onClick={() => { setEditing(true); setDateValue(toInputValue(lastWatered)); }}
-          title="Edit date"
           style={{ fontSize: 12, color: "var(--ink-500)", background: "none", border: "none", cursor: "pointer", textDecoration: "underline", textUnderlineOffset: 3 }}
         >
           Edit
@@ -109,13 +103,12 @@ export default function WaterButton({ plantId, lastWatered, wateringFrequencyDay
         <button
           onClick={clearWatering}
           disabled={loading}
-          title="Remove watering record"
           style={{ fontSize: 12, color: "var(--red-500)", background: "none", border: "none", cursor: "pointer", textDecoration: "underline", textUnderlineOffset: 3, opacity: loading ? 0.5 : 1 }}
         >
           Remove
         </button>
         <button
-          onClick={markToday}
+          onClick={() => water(new Date())}
           disabled={loading}
           style={{
             fontSize: 13, fontWeight: 500, background: "var(--accent)",
@@ -131,7 +124,7 @@ export default function WaterButton({ plantId, lastWatered, wateringFrequencyDay
 
   return (
     <button
-      onClick={markToday}
+      onClick={() => water(new Date())}
       disabled={loading}
       style={{
         display: "inline-flex", alignItems: "center", gap: 7,

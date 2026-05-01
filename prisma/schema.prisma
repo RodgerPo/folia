@@ -35,9 +35,31 @@ model Plant {
   soil                  String?
   humidity              String?
   perenualId            Int?
+  location              String?
+  potSize               String?
   createdAt             DateTime           @default(now())
   healthLogs            HealthLog[]
   wateringReminders     WateringReminder[]
+  wateringEvents        WateringEvent[]
+  chatMessages          ChatMessage[]
+}
+
+// Individual watering events — preserves full history, not just lastWatered.
+model WateringEvent {
+  id        String   @id @default(cuid())
+  plantId   String
+  plant     Plant    @relation(fields: [plantId], references: [id], onDelete: Cascade)
+  wateredAt DateTime @default(now())
+}
+
+// Persisted chat messages per plant so history survives page refresh.
+model ChatMessage {
+  id        String   @id @default(cuid())
+  plantId   String
+  plant     Plant    @relation(fields: [plantId], references: [id], onDelete: Cascade)
+  role      String
+  content   String
+  createdAt DateTime @default(now())
 }
 
 // An observation the user logs about a plant. aiAnalysis is filled in after Claude processes it.

@@ -43,6 +43,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       lastWatered: "lastWatered" in body
         ? (body.lastWatered ? new Date(body.lastWatered) : null)
         : plant.lastWatered,
+      location: "location" in body ? (body.location ?? null) : plant.location,
+      potSize: "potSize" in body ? (body.potSize ?? null) : plant.potSize,
     },
   });
 
