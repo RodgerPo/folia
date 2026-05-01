@@ -51,7 +51,7 @@ export async function POST(
     `Give concise, practical advice. Keep responses under 150 words unless the user asks for detail. Respond in plain prose — no markdown, no bullet points, no headers, no bold or italic text.`,
   ].join("\n\n");
 
-  const stream = await client.messages.stream({
+  const response = await client.messages.create({
     model: "claude-sonnet-4-6",
     max_tokens: 512,
     system,
@@ -61,31 +61,15 @@ export async function POST(
     ],
   });
 
-  const readable = new ReadableStream({
-    async start(controller) {
-      const encoder = new TextEncoder();
-      let fullText = "";
-      try {
-        for await (const chunk of stream) {
-          if (chunk.type === "content_block_delta" && chunk.delta.type === "text_delta") {
-            fullText += chunk.delta.text;
-            controller.enqueue(encoder.encode(chunk.delta.text));
-          }
-        }
-        // Persist both sides of the exchange after streaming completes
-        await prisma.chatMessage.createMany({
-          data: [
-            { plantId: id, role: "user", content: message },
-            { plantId: id, role: "assistant", content: fullText },
-          ],
-        });
-      } finally {
-        controller.close();
-      }
-    },
+  const fullText =
+    response.content[0]?.type === "text" ? response.content[0].text : "";
+
+  await prisma.chatMessage.createMany({
+    data: [
+      { plantId: id, role: "user", content: message },
+      { plantId: id, role: "assistant", content: fullText },
+    ],
   });
 
-  return new Response(readable, {
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
-  });
+  return Response.json({ text: fullText });
 }

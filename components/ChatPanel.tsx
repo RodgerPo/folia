@@ -41,22 +41,14 @@ export default function ChatPanel({ plantId, plantName, initialHistory = [] }: {
         }),
       });
 
-      if (!res.ok || !res.body) throw new Error("Request failed");
+      if (!res.ok) throw new Error("Request failed");
 
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let text = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        text += decoder.decode(value, { stream: true });
-        setHistory((prev) => {
-          const updated = [...prev];
-          updated[updated.length - 1] = { role: "assistant", content: text };
-          return updated;
-        });
-      }
+      const data = await res.json();
+      setHistory((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1] = { role: "assistant", content: data.text };
+        return updated;
+      });
     } catch {
       setHistory((prev) => {
         const updated = [...prev];
