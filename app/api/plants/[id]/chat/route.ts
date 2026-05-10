@@ -30,6 +30,15 @@ export async function POST(
   const history: HistoryMessage[] = body.history ?? [];
   if (!message) return new Response("Message required", { status: 400 });
 
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const messagesToday = await prisma.chatMessage.count({
+    where: { role: "user", createdAt: { gte: todayStart }, plant: { userId: user.id } },
+  });
+  if (messagesToday >= 5) {
+    return Response.json({ error: "daily_limit" }, { status: 429 });
+  }
+
   const logContext = plant.healthLogs.length
     ? plant.healthLogs
         .map((l) => {

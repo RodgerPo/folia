@@ -60,6 +60,12 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
   });
   if (!plant) notFound();
 
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const dailyMessageCount = await prisma.chatMessage.count({
+    where: { role: "user", createdAt: { gte: todayStart }, plant: { userId: user.id } },
+  });
+
   const { healthLogs, wateringEvents, chatMessages, ...p } = plant;
 
   const lightDisplay = getLightDisplay(p.light);
@@ -193,7 +199,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
           Ask about this plant
         </h2>
         <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 16, padding: 24, boxShadow: "var(--shadow-card)" }}>
-          <ChatPanel plantId={p.id} plantName={p.name} initialHistory={initialChatHistory} />
+          <ChatPanel plantId={p.id} plantName={p.name} initialHistory={initialChatHistory} dailyUsed={dailyMessageCount} />
         </div>
       </div>
 
